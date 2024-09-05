@@ -1,0 +1,159 @@
+<!doctype html>
+<html> 
+    <title>Rock Papper Scissors</title>
+ <head>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+        .rocke{
+          width: 100px;
+          height: 100px;
+        }
+        p{
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .rock,.papper,.scissor{
+            width: 150px;
+            height: 150px;
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            background-color: transparent;
+            border-radius: 80px;
+            border : 3px solid white;
+        }
+        .reset{
+            width: 100px;
+            height: 30px;
+            padding-top: 5px;
+            padding-left: 5px;
+            padding-bottom: 5px;
+            padding-right: 5px;
+            background-color: blue;
+            box-shadow: 0px 0px 10px rgba(235, 234, 237, 0.5);
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+        }
+    </style>
+ </head> 
+ <body> 
+  <h1> Rock Papper Scissors </h1> 
+  <button class="rock" onclick="checkwiner('rock')"><img src="rock-emoji.png" class="rocke"></button> 
+  <button class="papper" onclick="checkwiner('papper')"><img src="papper-emoji.png" class="rocke"> </button> 
+  <button class="scissor" onclick="checkwiner('scissor')"><img src="scissor-emoji.png" class="rocke"></button> 
+  <p class="wl"></p> 
+  <p class="choice"> 
+  </p> 
+  <p class="points"></p> 
+  <button class="reset" onclick="reset()">reset</button> 
+  <script>
+    rps= JSON.parse(localStorage.getItem("score"))||{
+      win:0,
+      lose:0,
+      draw:0
+    } 
+    var wl=document.querySelector(".wl")
+    var points=document.querySelector(".points")
+    var choice=document.querySelector(".choice")
+    points.innerText=`wins: ${rps.win} loses:${rps.lose} ties:${rps.draw}`
+    function reset(){
+      wl.innerText=""
+      choice.innerText=""
+      points.innerText=""
+      rps.win=0
+      rps.lose=0
+      rps.draw=0
+      localStorage.removeItem("score")
+      points.innerText=`wins: ${rps.win} loses:${rps.lose} ties:${rps.draw}`
+    }
+  function checkwiner(user){
+      com=Math.floor(Math.random()*3)+1
+      if (com===0){
+      com="rock"
+    }
+      else if (com===1){
+      com="papper"
+    }
+    else{
+      com="scissor"
+    }
+    if (com===user){
+      rps["draw"]+=1;
+      choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`
+     wl.innerText='Draw'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+    }
+    else if (com==="rock"){
+      if (user==="papper"){
+        rps["win"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`
+     wl.innerText='You Win'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      }
+      else{
+        rps["lose"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`
+        wl.innerText='You Lose'
+        points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      }
+    }
+    else if (com==="papper"){
+      if (user==="rock"){
+        rps["lose"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`
+     wl.innerText='You Lose'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      } 
+      else{
+        rps["win"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`    
+     wl.innerText='You Win'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      }
+    }
+    else if (com==="scissor"){
+      if (user==="papper"){
+        rps["lose"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`    
+     wl.innerText='You Lose'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      }
+      else{
+        rps["win"]+=1;
+        choice.innerHTML=`you 
+    <img src="${user}-emoji.png" class="rocke">
+    computer
+    <img src="${com}-emoji.png" class="rocke">`   
+      wl.innerText='You Win'
+     points.innerText=`wins:${rps.win} loses:${rps.lose} draw:${rps.draw}`
+      }
+    }
+   localStorage.setItem("score",JSON.stringify(rps))
+  }
+ </script> 
+ </body>
+</html>
